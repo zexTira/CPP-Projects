@@ -132,7 +132,7 @@ void CreatePriceSheet()
 	cout << "Please enter the number of room types:" << endl;
 	cin >> roomType;
 	double price;
-	for (unsigned int i = 1; i <= roomType; ++i)
+	for (unsigned int i = 1; i <= roomType; ++i)		// search in room types
 	{
 		cout << "Please enter the price for room of type " << i << " : " << endl;
 		cin >> price;

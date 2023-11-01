@@ -20,12 +20,12 @@ public:
 	Date(int month, int day, int year) :
 		month(month), day(day), year(year) {}
 
-	string DateToString();	// Converts a Date object to the date string format MM-DD-YYYY and returns it.
+	string DateToString();		// Converts a Date object to the date string format MM-DD-YYYY and returns it.
 };
 
 bool operator==(Date d1, Date d2);		// Judge if two dates are identical.
-bool operator!=(Date d1, Date d2);
-int operator-(Date d1, Date d2);
+bool operator!=(Date d1, Date d2);		// Similar above
+int operator-(Date d1, Date d2);			// Calculate the interval of days for two date objects. If d1 is after d2, result is positive, else negative. 
 
 Date ReadCurrentTime();	// Gets current system date.
 Date FormatStringToDate(string formatDate);	// Convert format string to Date object

@@ -2,7 +2,7 @@
 
 std::vector<Guest> Guest::guestList;
 
-void Guest::Register()
+void Guest::Register()	// Let a guest register, record his/her info and set the room assigned occupied.
 {
 	Guest::guestList.push_back(*this);
 
@@ -45,20 +45,20 @@ void Guest::Purchase(Management& dailyIncome)
 
 	cout << "Please enter the quantity of this item you want to buy:";
 	cin >> quantity;
-	if (it->CompareQuantityBigger(quantity))
+	if (it->CompareQuantityBigger(quantity))		
 	{
-		it->ReduceQuantity(quantity);
+		it->ReduceQuantity(quantity);		// Reduce the item number in inventory and calculate income.
 		dailyIncome.AddDayIncome(quantity * GetCurrentPrice(it));
 		cout << "Item ordered successfully!" << endl;
 	}
-	else
+	else    // If the guest wants more than currently in inventory, deny by returning.
 	{
 		cout << "The quantity you require is bigger than that of the item in inventory, please try again later!" << endl;
 		return;
 	}
 }
 
-double Guest::CauculatePriceRoom()
+double Guest::CauculatePriceRoom()		// Calculate according to price sheet.
 {
 	return Room::priceSheet[this->roomType] * this->leftDayIn;
 }
@@ -74,7 +74,7 @@ void Guest::ShowGuestList()
 	}
 }
 
-Guest CreateGuest()
+Guest CreateGuest()	// Create a guest and assign an empty room for him/her. If there are no empty rooms, return a invalid object.
 {
 	string name;
 	string idNum;
@@ -110,7 +110,7 @@ void JudgeLeave(Management& dailyIncome)
 	Date currentDate = ReadCurrentTime();
 	for (auto it = Guest::guestList.begin(); it != Guest::guestList.end(); ++it)
 	{
-		int daysDiffrence = currentDate - it->startDate;
+		int daysDiffrence = currentDate - it->startDate;	// using date difference to judge leave (the difference equal to day in means leave)
 		if (daysDiffrence == it->leftDayIn)
 		{
 			dailyIncome.AddDayIncome(it->CauculatePriceRoom());

@@ -2,16 +2,19 @@
 
 void Controller::InitObjects()
 {
+	// Initialize management object.
 	unsigned int managerFlag = 0;
 	this->currentManager = CreateDailyRevenue(managerFlag);
 	this->currentManager.RecordRevenue(managerFlag);
 
+	// Initialize price sheet.
 	if (Room::priceSheet.empty())
 	{
 		CreatePriceSheet();
 	}
 
-	if (Room::roomList.empty())
+	// Initialize room object.
+	if (Room::roomList.empty())		// If room list is empty we need to initialize manually, else we just need to initialize it with the first object in the list.
 	{
 		cout << "Please add at least one room to continue!" << endl;
 		this->currentRoom = CreateRoom();
@@ -22,6 +25,7 @@ void Controller::InitObjects()
 		this->currentRoom = *Room::roomList.begin();
 	}
 
+	// Initialize menu object.
 	if (Menu::itemList.empty())
 	{
 		cout << "Please add at least one item to menu to continue!" << endl;
@@ -33,6 +37,7 @@ void Controller::InitObjects()
 		this->currentMenu = *Menu::itemList.begin();
 	}
 
+	// Initialize guest object.
 	if (Guest::guestList.empty())
 	{
 		cout << "Please add at least one guest to continue!" << endl;
@@ -44,8 +49,8 @@ void Controller::InitObjects()
 		this->currentGuest = *Guest::guestList.begin();
 	}
 
-	this->currentManager.AddDayCostRoom();
-	JudgeLeave(this->currentManager);
+	this->currentManager.AddDayCostRoom();	// When initialize calculate daily room management fee.
+	JudgeLeave(this->currentManager);		// When initialize check those guests who are supposed to leave.
 }
 
 void InitFromFile()
@@ -57,7 +62,7 @@ void InitFromFile()
 	ReadRevenueFromFile();
 }
 
-void Interface(Controller& ctrler)
+void Interface(Controller& ctrler)	// User interface with switch branch,  every choice corresponds with an action. 
 {
 	int* choiceArr = new int[2];
 	cout << endl << "1. Guest operations\n" << "2. Room operations\n" << "3. Menu operations\n" << "4. Manager operations\n" << "5. Quit the system" << endl;
@@ -225,7 +230,7 @@ void Interface(Controller& ctrler)
 					}
 				}
 			}
-			case 5: 
+			case 5:		// When we quit we need to delete the pointer and calculate daily profit.
 			{
 				ctrler.currentManager.CalculateDayprofit();
 				cout << "Today's revenue has been written to file!" << endl;

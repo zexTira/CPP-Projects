@@ -3,7 +3,7 @@
 
 std::vector<Management> Management::dailyManagementList;
 
-void Management::RecordRevenue(unsigned int sign)
+void Management::RecordRevenue(unsigned int sign)		// When sign==1, which indicates a new object created, write into the list.
 {
 	if (sign)
 	{
@@ -53,9 +53,9 @@ void Management::ShowPreviousRevenue()
 	}
 }
 
-Management& CreateDailyRevenue(unsigned int& sign)
+Management& CreateDailyRevenue(unsigned int& sign)	// Here we need rewrite the value of sign so we define its reference as param.
 {
-	if (Management::dailyManagementList.empty())
+	if (Management::dailyManagementList.empty())	//	If list is empty, set sign=1 and create new object.
 	{
 		Date currentDate = ReadCurrentTime();
 		double managementFee;
@@ -68,7 +68,7 @@ Management& CreateDailyRevenue(unsigned int& sign)
 	}
 	else
 	{
-		auto it = Management::dailyManagementList.end() - 1;
+		auto it = Management::dailyManagementList.end() - 1;		// If list is not empty but today's date is not the lastest date in the list, create new object and set sign 1.
 		if (it->currentDate != ReadCurrentTime())
 		{
 			Date currentDate = ReadCurrentTime();
@@ -80,7 +80,7 @@ Management& CreateDailyRevenue(unsigned int& sign)
 			sign = 1;
 			return managerEntity;
 		}
-		else
+		else		// Otherwise we continue using the lastest date's revenue.
 		{
 			sign = 0;
 			return *it;
